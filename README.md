@@ -41,7 +41,7 @@ SHOW TABLES;
 
 *   **Execution Output:** 16 Tables detected.
 *   **Business Takeaway:** Finding 16 distinct relational tables confirms that Sakila Videos runs a fully modular database infrastructure. This baseline list serves as the inventory checklist for auditing separate business sectors (such as customers, inventory, and payments) before initiating the core data migration.
-### Aufgabe 1: Core Entity Structural Audit (`customer` Architecture)
+###  1: Core Entity Structural Audit (`customer` Architecture)
 **Business Question:** Lass dir die eine detaillierte Übersicht über die Tabelle `customer` anzeigen, die die Spaltennamen und ihre Datentypen sowie Primär- und Fremdschlüssel auflistet. (Extract a complete structural schema overview of the `customer` table, auditing columns, data formatting types, and indexing keys.)
 
 ```sql
@@ -78,7 +78,7 @@ FROM language;
     *   French
     *   German
 *   **Business Takeaway:** This baseline query returns 6 distinct international languages supported by Sakila Videos. Verifying these text fields helps global expansion teams immediately confirm that the target company's media files match the localized linguistic requirements of our existing multi-region markets.
-### Aufgabe 2: Specific Attributes vs. Table Wildcards (`SELECT *`)
+###  2: Specific Attributes vs. Table Wildcards (`SELECT *`)
 **Business Question:** Schreibe zwei neue Queries. Mit der ersten Query fragst du die beiden Spalten `language_id` und `name` der Tabelle `language` ab. Mit der zweiten Query fragst du alle Spalten der Tabelle `language` ab. (Write two separate queries: one pulling explicitly targeted attributes, and a second pulling all structural columns using a wildcard modifier.)
 
 **Query 2.1 (Targeted Selection):**
@@ -109,7 +109,7 @@ SELECT
 FROM customer
 LIMIT 5;
 ```
-### Aufgabe 3: Targeted Row Pagination (`LIMIT` with Row Offset)
+###  3: Targeted Row Pagination (`LIMIT` with Row Offset)
 **Business Question:** Schreibe eine Query, um die Spalten `customer_id`, `first_name` und `last_name` der Tabelle `customer` abzufragen. Lass dir nur die Zeilen 5 bis 7 vom Ergebnis ausgeben. (Formulate a query to extract customer identifiers and names, restricting the output exclusively to rows 5 through 7 by skipping the first four records.)
 
 ```sql
@@ -132,7 +132,7 @@ LIMIT 4, 3;
 
 ### Phase 2: Cardinality & Uniqueness Audits (`SELECT DISTINCT`)
 When exploring an inherited corporate database, identifying duplicate entry patterns and understanding the true number of unique attributes is critical. The `SELECT DISTINCT` modifier filters out redundant rows to reveal the exact unique categories present in a column.
-### Aufgabe 4: Compliance & Authorization Audit (`SELECT DISTINCT`)
+###  4: Compliance & Authorization Audit (`SELECT DISTINCT`)
 **Business Question:** Gab es Zahlungen, die von jemand anderem als den zwei uns bekannten Angestellten bearbeitet wurden? Gib die Antwort darauf, indem du die einzigartigen Werte der Spalte `staff_id` in der Tabelle `payment` abfragst. (Did any unauthorized or unknown personnel process customer transactions? Verify by extracting all unique employee identifiers recorded inside the transactional ledger.)
 
 ```sql
@@ -183,7 +183,7 @@ FROM payment;
 *   **Execution Output:** 16,049 records
 *   **Business Takeaway:** Finding 16,049 historical entries gives you a solid dataset to measure macro seasonal patterns, predict hardware capacity needs, and check how scalable the database will be before merging it into our core infrastructure.
 
-### Aufgabe 5: Descriptive Sales Matrix (`AVG`, `MAX`, `MIN`)
+###  5: Descriptive Sales Matrix (`AVG`, `MAX`, `MIN`)
 **Business Question:** Gib den mittleren Zahlungsbetrag sowie die größte und kleinste Einzelzahlung aus. Berechne die Werte mit den Aggregationsfunktionen `AVG()`, `MAX()` und `MIN()`. Wähle sinnvolle Aliasse. (Extract structural pricing indicators by calculating the arithmetic mean, maximum charge value, and absolute baseline floor payment recorded in the system.)
 
 ```sql
@@ -256,7 +256,7 @@ WHERE customer_id = 5;
 
 *   **Execution Metrics:** Returned a complete transactional footprint of 38 distinct records for Customer ID 5.
 *   **Business Takeaway:** Isolating individual customer timelines via the `WHERE` clause is critical for high-touch customer support diagnostics, fraudulent account reviews, or customer loyalty calculations. It lets us trace exactly when a specific client transacted, which clerk (`staff_id`) helped them, and how their individual order amounts fluctuated over time.
-### Aufgabe 6: Fiscal Year Volume Aggregation (Time-Filtered Auditing)
+###  6: Fiscal Year Volume Aggregation (Time-Filtered Auditing)
 **Business Question:** Wie viele Zahlungen wurden im Jahr 2006 getätigt? Schreibe eine Query, die nach dem Jahr 2006 filtert und die Anzahl an Zahlungen ausgibt. (Quantify the total transactional payment volume processed specifically during the 2006 fiscal year operational window.)
 
 ```sql
@@ -288,7 +288,7 @@ WHERE amount > 8
 *   **Execution Output:** 607 records | Average Amount: 9.584679
 *   **Business Takeaway:** This query shows how to handle operator precedence using parentheses. By forcing the database to evaluate the date exceptions (`OR`) together before checking the pricing threshold (`AND`), we prevent data leaks and make sure our seasonal high-value customer tracking models are completely accurate.
 
-### Aufgabe 7: Targeted Multi-Entity Verification (Text-Based Filtering)
+###  7: Targeted Multi-Entity Verification (Text-Based Filtering)
 **Business Question:** Welche Stammfiliale haben die Kundinnen SUSAN WILSON und MARIA MILLER? Lass dir die Spalten `store_id`, `first_name` und `last_name` aus der Tabelle `customer` ausgeben und filtere nach Vor- und Nachnamen. (Identify the designated home store branch location for specific customers Susan Wilson and Maria Miller by running a dual-attribute filter.)
 
 ```sql
@@ -342,7 +342,7 @@ WHERE rental_id IS NULL;
 
 ## 9. Structural Matrix Aggregations (`GROUP BY`)
 
-### Aufgabe 8: Multi-Client Revenue Segmentation
+###  8: Multi-Client Revenue Segmentation
 **Business Question:** Ermittle wie hoch die Gesamtsumme der Zahlungsbeträge für die Kundennummern 1, 2, 3, 4 und 5 ist. Schreibe dazu eine Query, die WHERE mit GROUP BY kombiniert. Gib der neuen Spalte über die Gesamtsumme den Alias total_in_USD. (Calculate the combined gross revenue generated individually by Customer IDs 1 through 5, combining localized array filtering with dynamic row grouping.)
 
 ```sql
@@ -356,7 +356,7 @@ GROUP BY customer_id;
 
 *   **Execution Output Footprint:** Summarized exactly 5 distinct rows mapping out the lifetime financial value (LTV) metric for each targeted customer slot.
 *   **Business Takeaway:** Combining the `IN` operator with a structural `GROUP BY` clause is a core pattern for running cohort analysis. Instead of executing five separate queries or dumping unaggregated rows into Excel, this script forces the database engine to partition and calculate financial summaries on the fly. This gives finance teams a clean, high-level overview of revenue concentration across specific high-touch accounts.
-### Aufgabe 9: Multi-Dimensional Matrix Grouping (Cross-Tabulation)
+###  9: Multi-Dimensional Matrix Grouping (Cross-Tabulation)
 **Business Question:** Ermittle wie hoch die Gesamtsumme der Zahlungsbeträge für die Kundennummern 1, 2, 3, 4 und 5 pro Mitarbeiter:in ist. (Calculate the combined gross revenue generated by Customer IDs 1 through 5, cross-tabulating the results by both customer and the specific employee who processed the transaction.)
 
 ```sql
@@ -382,7 +382,7 @@ When filtering data matrices, row-level filters (`WHERE`) cannot evaluate aggreg
 #### Core Structural Mechanics:
 *   **`WHERE` Clause:** Applied directly to individual underlying table rows *before* any grouping or mathematical aggregations take place.
 *   **`HAVING` Clause:** Applied directly to the final collapsed group footprints *after* the `GROUP BY` clause and aggregation functions have fully executed.
-### Aufgabe 10: High-Value Cohort Isolation via Group Filtering (`HAVING`)
+###  10: High-Value Cohort Isolation via Group Filtering (`HAVING`)
 **Business Question:** Welche der Kundennummern 1, 2, 3, 4 und 5 hat Gesamtzahlungen von über 120 Dollar getätigt? (Filter our target group of customer IDs 1 through 5 to isolate only those individual accounts whose lifetime value exceeds a $120 revenue threshold.)
 
 ```sql
@@ -405,7 +405,7 @@ HAVING total_in_USD > 120;
 
 ### Phase 5: Result Serialization & Output Ordering (`ORDER BY`)
 After filtering and aggregating data matrices, the final step in generating a clean business report is ordering the results. Sorting columns ensures that top performers, critical bottlenecks, or chronological events are immediately scannable for decision-makers.
-### Aufgabe 11: Top-Tier VIP Customer Extraction (Aggregated Sorting)
+###  11: Top-Tier VIP Customer Extraction (Aggregated Sorting)
 **Business Question:** Bestimme die Kund:innen mit Gesamtzahlungen von über 200 Dollar. Sortiere das Ergebnis in absteigender Reihenfolge. (Identify the absolute highest-spending VIP customers whose total lifetime expenditure exceeds $200, sorting the output in descending order to prioritize top revenue contributors.)
 
 ```sql
@@ -426,7 +426,7 @@ ORDER BY total_in_USD DESC;
 
 ## 10. Multi-Table Relational Data Merging (`JOIN`)
 
-### Aufgabe 12: Cross-Table Transaction Profiling & Premium Audit
+###  12: Cross-Table Transaction Profiling & Premium Audit
 **Business Question:** Ermittle für alle Zahlungen von mehr als 11 USD wie hoch der Betrag war, wann sie stattfanden und wie Vor- und Nachname der Kund:innen lauteten. Verknüpfe dazu die Tabellen customer und payment über die Spalte customer_id miteinander. Ordne das Ergebnis alphabetisch nach dem Nachnamen. (Identify all individual transactions exceeding an $11 threshold. Extract the exact charge, the chronological timestamp, and the customer's full name by joining the customer and payment datasets, ordering the results alphabetically by surname.)
 
 ```sql
@@ -454,7 +454,7 @@ ORDER BY c.last_name ASC;
     *   VANESSA | SIMS | $11.99 | 2005-08-23
 
 *   **Business Takeaway:** This multi-table relational join matches separate sales data points into a single customer profile sheet. The output reveals that exactly 10 transactions breached the $11 ceiling, and every single one was priced exactly at $11.99. This confirms our maximum standard pricing tier and provides the marketing department with an exact list of high-tier premium buyers to target for early loyalty programs during platform synchronization.
-### Aufgabe 13: Cumulative Multi-Table Inventory Analytics (4-Table Join Pipeline)
+###  13: Cumulative Multi-Table Inventory Analytics (4-Table Join Pipeline)
 **Business Question:** Was sind die häufigsten drei Filmgenres (gemessen an der Gesamtanzahl der vorhandenen Filme des jeweiligen Genres in allen Videotheken)? (Identify the top 3 most heavily stocked film categories across all retail store locations by mapping the physical warehouse inventory footprints back to catalog category descriptors.)
 
 ```sql
@@ -480,7 +480,7 @@ LIMIT 3;
 
 ## 11. Set Operators & Cross-Branch Comparative Analysis (`UNION`)
 
-### Aufgabe 14: Cross-Branch Portfolio Stacking (Set Operations Matrix)
+###  14: Cross-Branch Portfolio Stacking (Set Operations Matrix)
 **Business Question:** Verwende den `UNION`-Befehl um eine Tabelle zu erstellen, in der die drei häufigsten Genres der jeweiligen beiden Videotheken angezeigt werden. Die Tabelle soll drei Spalten haben: die Store ID, den Namen des Genres und die Anzahl der vorhandenen Filme des Genres. (Execute a combined set operation to stack the Top 3 most heavily stocked film categories individually for Store Branch 1 and Store Branch 2 into a single unified comparative matrix.)
 
 ```sql
@@ -524,7 +524,7 @@ UNION
 
 ## 12. Advanced Analytical Frameworks & Modular Subqueries
 
-### Aufgabe 15: Dynamic Scalar Subqueries (`WHERE` Evaluation)
+###  15: Dynamic Scalar Subqueries (`WHERE` Evaluation)
 **Business Question:** Gib die Namen derjenigen Kund:innen an, die eine Zahlung mit dem maximalen Zahlungsbetrag getätigt haben. Benutzte dazu eine Subquery in der WHERE-Klausel. Sortiere die Ergebnistabelle alphabetisch nach dem Nachnamen. (Extract the names of all clients who executed a transaction matching the absolute peak payment ceiling recorded in the database by deploying a dynamic scalar subquery.)
 
 ```sql
@@ -546,7 +546,7 @@ ORDER BY c.last_name ASC;
     *   ... [10 records total ending in SIMS | VANESSA]
 *   **Business Takeaway:** Hardcoding thresholds (like writing `WHERE amount = 11.99`) creates rigid, fragile code that breaks when pricing tiers change. Using a nested subquery to calculate `MAX(amount)` dynamically forces the database to evaluate the absolute highest price tier first, returning a robust and adaptive audit sheet of premium spenders.
 
-### Aufgabe 16: Derived Inline Subqueries (Data Isolation via `FROM` Clause)
+###  16: Derived Inline Subqueries (Data Isolation via `FROM` Clause)
 **Business Question:** Ermittle die Gesamteinnahmen pro Filmkategorie unter Verwendung einer komplexen Unterabfrage (Subquery) in der FROM-Klausel. (Calculate total gross revenue generated across individual movie categories by utilizing a multi-table subquery as a temporary derived table in the FROM clause.)
 
 ```sql
@@ -572,7 +572,7 @@ GROUP BY category.name;
     1.  **Inner Layer Performance:** The inner subquery performs a heavy 4-table join (`payment` ➡️ `rental` ➡️ `inventory` ➡️ `film_category`) to pre-aggregate and isolate raw earnings into a temporary localized dataset named `category_revenue`.
     2.  **Outer Layer Consolidation:** The outer layer maps this isolated block straight to the master descriptive `category` table via the `category_id` bridge, sorting the results cleanly by readable category names.
 *   **Business Takeaway:** Utilizing subqueries inside the `FROM` clause allows an analyst to partition computational stress into distinct stages. By isolating complex transactional matching inside a derived data matrix first, the database engine returns clean, aggregated metrics to the outer layer, making it an excellent blueprint for writing highly scalable reporting scripts.
-### Aufgabe 17: Dynamic Correlated Subqueries (`SELECT` Line Isolation)
+###  17: Dynamic Correlated Subqueries (`SELECT` Line Isolation)
 **Business Question:** Bestimme die fünf Kund:innen inklusive Name und Kundennummer, die am häufigsten Filme ausgeliehen haben und berechne die Gesamtanzahl der Ausleihen dieser Kund:innen. Verwende eine Subquery innerhalb der SELECT-Klausel. (Isolate the top 5 most active rental customers by name and ID, dynamically executing a correlated subquery inside the main selection block to count individual checkout velocities.)
 
 ```sql
@@ -599,7 +599,7 @@ LIMIT 5;
     *   75 | TAMMY | SANDERS | 41 rentals
 
 *   **Advanced Engineering Insight:** Unlike standard independent subqueries that run once, a *Correlated Subquery* references columns from the outer shell (`customer.customer_id`). The database engine dynamically executes this nested count for every single row on the fly. 
-*   **Business Takeaway:** This approach provides a clean alternative to a standard `LEFT JOIN` and `GROUP BY` pipeline. The output confirms that Eleanor Hunt and Karl Seal are our absolute highest-volume transactional drivers. Cross-referencing this matrix with our financial milestone report (Aufgabe 11) verifies that these high-frequency rental users match our top revenue contributors, validating the integrity of our core transaction streams.
+*   **Business Takeaway:** This approach provides a clean alternative to a standard `LEFT JOIN` and `GROUP BY` pipeline. The output confirms that Eleanor Hunt and Karl Seal are our absolute highest-volume transactional drivers. Cross-referencing this matrix with our financial milestone report ( 11) verifies that these high-frequency rental users match our top revenue contributors, validating the integrity of our core transaction streams.
 
 This project utilizes the industry-standard Sakila sample database, which is open-source and officially distributed under the permissive terms of the 3-Clause BSD License.
 
